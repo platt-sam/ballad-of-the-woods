@@ -66,13 +66,8 @@ let currentRoom = null;
 
 let a = new Room("a", "https://ak.picdn.net/shutterstock/videos/1017427615/thumb/11.jpg");
 let b = new Room("b", "https://ozinga.com/wp-content/uploads/2020/09/22_CommonConcreteProblems-1024x500.jpg");
-<<<<<<< HEAD
 let c = new Room("c", "https://dirtsoilandmore.com/wp-content/uploads/sites/12/2014/02/dirt.jpg");
-let d = new Room("d", "https://ksassets.timeincuk.net/wp/uploads/sites/46/2021/06/GettyImages-1163560314.jpg");
-=======
-let c = new Room("c", "https://ak.picdn.net/shutterstock/videos/1017427615/thumb/11.jpg");
-let d = new Room("d", "https://ak.picdn.net/shutterstock/videos/1017427615/thumb/11.jpg");
->>>>>>> d94ff8a6a15762a2440ac2abde09a4f111b35e3f
+let d = new Room("d", "https://c0.wallpaperflare.com/preview/66/391/642/bird-s-eye-view-ocean-sea-seascape.jpg");
 
 /* Set Each Room's Neighbor(s) */
 
@@ -82,15 +77,7 @@ c.setNeighbors(b, d, null, null);
 d.setNeighbors(c, b, null, null);
 
 /* Set Each Room's Corner Obstacles */
-
-<<<<<<< HEAD
 a.setObstacles(stone, null, null, null);
 b.setObstacles(stone, null, null, null);
 c.setObstacles(stone, null, null, null);
 d.setObstacles(stone, null, null, null);
-=======
-a.setObstacles(null, null, null, null);
-b.setObstacles(null, null, null, null);
-c.setObstacles(stone, null, null, null);
-d.setObstacles(null, null, null, null);
->>>>>>> d94ff8a6a15762a2440ac2abde09a4f111b35e3f

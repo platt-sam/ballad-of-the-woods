@@ -1,5 +1,6 @@
 
 currentRoom = c; // Set Current Room at beginning of game
+const inc = 10; // How many pixels to move at a time
 
 /* CREATE HTML ELEMENTS */
     
@@ -16,15 +17,17 @@ var mainLeftOffset = 0; // player's distance from the left border (in pixels)
 var mainTopOffset = 0; // player's distance from the top border (in pixels)
 
 function initialize() {
+    mainLeftOffset = 0;
+    mainTopOffset = 0;
 
     console.log("The current room is " + currentRoom.name);
+    console.log(mainLeftOffset, mainTopOffset);
+    console.log(lincoln.style.marginLeft, lincoln.style.marginTop);
 
     main.style.border = "solid 1px black";
     main.style.height = room_height + "px";
     main.style.width = room_width + "px";
     main.style.position = "fixed";
-    main.style.marginLeft = mainLeftOffset;
-    main.style.marginTop = mainTopOffset;
     main.style.padding = 0;
 
     // Background Image
@@ -45,8 +48,8 @@ function initialize() {
         this.style.height = h + "px";
     }
     lincoln.style.position = "fixed";
-    lincoln.style.marginLeft = 0;
-    lincoln.style.marginTop = 0;
+    lincoln.style.marginLeft = mainLeftOffset + "px";
+    lincoln.style.marginTop = mainTopOffset + "px";
 
     // Northeast Obstacle
     ne_obstacle.src = currentRoom.obstacle_ne.source_filename;
@@ -70,9 +73,9 @@ function initialize() {
     body[0].append(main);
     main.append(lincoln);
     if (currentRoom.obstacle_ne) { main.append(ne_obstacle); }
-    if (currentRoom.obstacle_nw) { main.append(nw_obstacle); }
-    if (currentRoom.obstacle_se) { main.append(se_obstacle); }
-    if (currentRoom.obstacle_sw) { main.append(sw_obstacle); }
+    //if (currentRoom.obstacle_nw) { main.append(nw_obstacle); }
+    //if (currentRoom.obstacle_se) { main.append(se_obstacle); }
+    //if (currentRoom.obstacle_sw) { main.append(sw_obstacle); }
 
     /* ADD EVENT LISTENERS */
 
@@ -84,8 +87,6 @@ function initialize() {
         var northwest_corner_cond = null;
         var southeast_corner_cond = null;
         var southwest_corner_cond = null;
-
-        var inc = 10; // How many pixels to move at a time
 
         if (key == 'w' || key == 'ArrowUp') { // Move Up
             
@@ -112,15 +113,19 @@ function initialize() {
         
         } else if (key == 's' || key == 'ArrowDown') { // Move Down
             if (mainTopOffset + lincoln.height < room_height) {
+
                 mainTopOffset += inc;
                 lincoln.style.marginTop = mainTopOffset + "px";
             } else {
                 console.log("Reached bottommost boundary of map");
             }
         } else if (key == 'a' || key == 'A' || key == 'ArrowLeft') { // Move Left
-            if (mainLeftOffset > 0) {
+            if (mainLeftOffset >= inc) {
                 mainLeftOffset -= inc;
                 lincoln.style.marginLeft = mainLeftOffset + "px";
+
+                //console.log("MainLeftOffset = " + mainLeftOffset);
+                //console.log(lincoln.style.marginLeft, lincoln.style.marginTop);
             } else {
                 console.log("Reached leftmost boundary of map");
             }
