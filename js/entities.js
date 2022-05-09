@@ -3,11 +3,11 @@
 const obstacle_width = 80;
 const obstacle_height = 80;
 
-const player_width = 20;
-const player_height = 60;
+const player_width = 50; // 50px wide
+const player_height = 80; // 80px tall
 
-const room_width = 500;
-const room_height = 400;
+const room_width = 750; // 750 px wide
+const room_height = 600; // 600 px tall
 
 /* Class Definitions */
 

@@ -112,6 +112,8 @@ to this section's matching END comment to see page-specific styles.
   body {
     font-family: var(--font-family);
     background-color: var(--color-bg);
+    margin: 0 auto;
+    width: 750px;
   }
   
   /* Page structure */
