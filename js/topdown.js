@@ -1,6 +1,6 @@
 
-currentRoom = c; // Set Current Room at beginning of game
-const inc = 5; // How many pixels to move at a time
+currentRoom = lightforest_0_0; // Set Current Room at beginning of game
+const inc = 20; // How many pixels to move at a time
 
 /* CREATE HTML ELEMENTS */
     
@@ -12,6 +12,8 @@ let ne_obstacle = document.createElement("img");
 let nw_obstacle = document.createElement("img");
 let se_obstacle = document.createElement("img");
 let sw_obstacle = document.createElement("img");
+
+window.alert("Use wasd or arrow keys to move around the board and between rooms");
 
 var boardLeftOffset = 0; // player's distance from the left border (in pixels)
 var boardTopOffset = 0; // player's distance from the top border (in pixels)
@@ -28,13 +30,11 @@ window.addEventListener("keydown", function(event) {
     var southwest_corner_cond = null;
 
     if (key == 'w' || key == 'ArrowUp') { // Move Up
-        
         // Set corner conditions for going up
         northeast_corner_cond = boardTopOffset > 0 && (boardLeftOffset + lincoln.width) < (room_width - ne_obstacle.width);
         northwest_corner_cond = false; // TODO: Add logic for this
         
         if (boardTopOffset > ne_obstacle.height || northeast_corner_cond || northwest_corner_cond) {
-            
             boardTopOffset -= inc;
             lincoln.style.marginTop = boardTopOffset + "px";
         
@@ -55,8 +55,12 @@ window.addEventListener("keydown", function(event) {
 
             boardTopOffset += inc;
             lincoln.style.marginTop = boardTopOffset + "px";
-        } else {
-            console.log("Reached bottommost boundary of map");
+        } else { // at bottom of map
+            if (currentRoom.room_south != null) { // if there is a room to the south
+                console.log("Reached bottommost boundary of map, moving to neighbor room to the south");
+                currentRoom = currentRoom.room_south; // switch to that room
+                initialize(); // re-initialize map
+            } else { console.log("Reached bottommost boundary of map, but there is no neighbor to the south"); }
         }
     } else if (key == 'a' || key == 'A' || key == 'ArrowLeft') { // Move Left
         if (boardLeftOffset >= inc) {
@@ -66,7 +70,11 @@ window.addEventListener("keydown", function(event) {
             //console.log("boardLeftOffset = " + boardLeftOffset);
             //console.log(lincoln.style.marginLeft, lincoln.style.marginTop);
         } else {
-            console.log("Reached leftmost boundary of map");
+            if (currentRoom.room_west != null) { // if there is a room to the west
+                console.log("Reached leftmost boundary of map, moving to neighbor room to the west");
+                currentRoom = currentRoom.room_west; // switch to that room
+                initialize(); // re-initialize map
+            } else { console.log("Reached leftmost boundary of map, but there is no neighbor to the west"); }
         }
 
     } else if (key == 'd' || key == 'ArrowRight') { // Move Right
@@ -76,7 +84,11 @@ window.addEventListener("keydown", function(event) {
             boardLeftOffset += inc;
             lincoln.style.marginLeft = boardLeftOffset + "px";
         } else {
-            console.log("Reached rightmost boundary of map");
+            if (currentRoom.room_east != null) { // if there is a room to the east
+                console.log("Reached rightmost boundary of map, moving to neighbor room to the east");
+                currentRoom = currentRoom.room_east; // switch to that room
+                initialize(); // re-initialize map
+            } else { console.log("Reached rightmost boundary of map, but there is no neighbor to the east"); }
         }
     }
 }, true);
@@ -85,9 +97,9 @@ function initialize() {
     boardLeftOffset = 0;
     boardTopOffset = 0;
 
-    console.log("The current room is " + currentRoom.name);
-    console.log(boardLeftOffset, boardTopOffset);
-    console.log(lincoln.style.marginLeft, lincoln.style.marginTop);
+    console.log("You are in " + currentRoom.name);
+    // console.log(boardLeftOffset, boardTopOffset);
+    // console.log(lincoln.style.marginLeft, lincoln.style.marginTop);
 
     board.style.border = "solid 1px black";
     board.style.height = room_height + "px";
@@ -117,20 +129,28 @@ function initialize() {
     lincoln.style.marginTop = boardTopOffset + "px";
 
     // Northeast Obstacle
-    ne_obstacle.src = currentRoom.obstacle_ne.source_filename;
-    ne_obstacle.style.width = obstacle_width + "px";
-    ne_obstacle.style.height = obstacle_height + "px";
-    ne_obstacle.style.position = "fixed";
-    ne_obstacle.style.marginLeft = room_width - obstacle_width + "px";
-    ne_obstacle.style.marginTop = "0px";
-    ne_obstacle.style.filter = "grayscale(100)";
-    ne_obstacle.style.backgroundColor = "white";
-
+    if (currentRoom.ne_obstacle != null) {
+        ne_obstacle.src = currentRoom.obstacle_ne.source_filename;
+        ne_obstacle.style.width = obstacle_width + "px";
+        ne_obstacle.style.height = obstacle_height + "px";
+        ne_obstacle.style.position = "fixed";
+        ne_obstacle.style.marginLeft = room_width - obstacle_width + "px";
+        ne_obstacle.style.marginTop = "0px";
+        ne_obstacle.style.filter = "grayscale(100)";
+        ne_obstacle.style.backgroundColor = "white";
+    }
     // Northwest Obstacle
-
+    if (currentRoom.nw_obstacle != null) {
+        // TODO
+    }
     // Southeast Obstacle
-
+    if (currentRoom.se_obstacle != null) {
+        // TODO
+    }
     // Southwest Obstacle
+    if (currentRoom.sw_obstacle != null) {
+        // TODO
+    }
 
     /* SET THE INNER CONTENT OF THE ELEMENTS */
 
@@ -138,7 +158,7 @@ function initialize() {
     main[0].append(board);
     board.append(lincoln);
     if (currentRoom.obstacle_ne) { board.append(ne_obstacle); }
-    //if (currentRoom.obstacle_nw) { board.append(nw_obstacle); }
-    //if (currentRoom.obstacle_se) { board.append(se_obstacle); }
-    //if (currentRoom.obstacle_sw) { board.append(sw_obstacle); }
+    if (currentRoom.obstacle_nw) { board.append(nw_obstacle); }
+    if (currentRoom.obstacle_se) { board.append(se_obstacle); }
+    if (currentRoom.obstacle_sw) { board.append(sw_obstacle); }
 }

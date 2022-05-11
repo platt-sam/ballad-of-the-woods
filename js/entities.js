@@ -54,30 +54,52 @@ let Room = class {
 
 /* Instantiate Player(s) */
 
-let p1 = new Player("media/lincoln.jpg");
+let p1 = new Player("assets/lincoln.jpg");
 
 /* Instantiate Obstacles */
 
-let stone = new Obstacle("https://pngimg.com/uploads/stone/stone_PNG13545.png");
+var rock = new Obstacle("assets/rock-rough.png");
+var light_tree = new Obstacle("assets/light-tree-rough.png");
+var dark_tree = new Obstacle("assets/dark-tree-rough.png");
 
 /* Instantiate Rooms */
 
-let currentRoom = null;
+var currentRoom;
 
-let a = new Room("a", "https://ak.picdn.net/shutterstock/videos/1017427615/thumb/11.jpg");
-let b = new Room("b", "https://ozinga.com/wp-content/uploads/2020/09/22_CommonConcreteProblems-1024x500.jpg");
-let c = new Room("c", "https://dirtsoilandmore.com/wp-content/uploads/sites/12/2014/02/dirt.jpg");
-let d = new Room("d", "https://c0.wallpaperflare.com/preview/66/391/642/bird-s-eye-view-ocean-sea-seascape.jpg");
+var lightforest_0_0 = new Room("Light Forest (0, 0)", "assets/light-forest-rough.jpeg");
+var lightforest_1_0 = new Room("Light Forest (1, 0)", "assets/light-forest-rough.jpeg");
+var lightforest_2_0 = new Room("Light Forest (2, 0)", "assets/light-forest-rough.jpeg");
+var lightforest_0_1 = new Room("Light Forest (0, 1)", "assets/light-forest-rough.jpeg");
+var lightforest_1_1 = new Room("Light Forest (1, 1)", "assets/light-forest-rough.jpeg");
+var lightforest_2_1 = new Room("Light Forest (2, 1)", "assets/light-forest-rough.jpeg");
+
+var darkforest_3_0 = new Room("Dark Forest (3, 0)", "assets/dark-forest-rough.jpeg");
+var darkforest_4_0 = new Room("Dark Forest (4, 0)", "assets/dark-forest-rough.jpeg");
+var darkforest_5_0 = new Room("Dark Forest (5, 0)", "assets/dark-forest-rough.jpeg");
+var darkforest_3_1 = new Room("Dark Forest (3, 1)", "assets/dark-forest-rough.jpeg");
+var darkforest_4_1 = new Room("Dark Forest (4, 1)", "assets/dark-forest-rough.jpeg");
+var darkforest_5_1 = new Room("Dark Forest (5, 1)", "assets/dark-forest-rough.jpeg");
+
+var cave_4_2 = new Room("Cave (4, 2)", "assets/cave-rough.jpeg");
 
 /* Set Each Room's Neighbor(s) */
+//                           North              South               East                West
+lightforest_0_0.setNeighbors(lightforest_0_1,   lightforest_0_1,    lightforest_1_0,    null);
+lightforest_1_0.setNeighbors(lightforest_1_1,   lightforest_1_1,    lightforest_2_0,    lightforest_0_0);
+lightforest_2_0.setNeighbors(lightforest_2_1,   lightforest_2_1,    darkforest_3_0,     lightforest_1_0);
+lightforest_0_1.setNeighbors(lightforest_0_0,   lightforest_0_0,    lightforest_1_0,    lightforest_2_1);
+lightforest_1_1.setNeighbors(lightforest_1_0,   lightforest_1_0,    lightforest_2_1,    lightforest_0_1);
+lightforest_2_1.setNeighbors(lightforest_2_0,   lightforest_2_0,    null,               lightforest_1_1);
 
-a.setNeighbors(null, null, b, null);
-b.setNeighbors(d, c, null, a);
-c.setNeighbors(b, d, null, null);
-d.setNeighbors(c, b, null, null);
+darkforest_3_0.setNeighbors(darkforest_3_1,     darkforest_3_1,     darkforest_4_0,     lightforest_2_0);
+darkforest_4_0.setNeighbors(darkforest_4_1,     darkforest_4_1,     darkforest_5_0,     darkforest_3_0);
+darkforest_5_0.setNeighbors(darkforest_5_1,     darkforest_5_1,     null,               darkforest_4_0);
+darkforest_3_1.setNeighbors(darkforest_3_0,     darkforest_3_0,     darkforest_4_1,     null);
+darkforest_4_1.setNeighbors(darkforest_4_0,     cave_4_2,           darkforest_5_1,     darkforest_3_1);
+darkforest_5_1.setNeighbors(darkforest_5_0,     null,               darkforest_3_1,     darkforest_4_1);
+
+cave_4_2.setNeighbors(darkforest_4_1,           null,               null,               null);
 
 /* Set Each Room's Corner Obstacles */
-a.setObstacles(stone, null, null, null);
-b.setObstacles(stone, null, null, null);
-c.setObstacles(stone, null, null, null);
-d.setObstacles(stone, null, null, null);
+//                           NE,         NW,    SE,     SW
+lightforest_0_0.setObstacles(light_tree, null,  null,   null);
