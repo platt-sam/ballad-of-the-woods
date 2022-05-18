@@ -66,40 +66,57 @@ var dark_tree = new Obstacle("assets/dark-tree-rough.png");
 
 var currentRoom;
 
-var lightforest_0_0 = new Room("Light Forest (0, 0)", "assets/light-forest-rough.jpeg");
-var lightforest_1_0 = new Room("Light Forest (1, 0)", "assets/light-forest-rough.jpeg");
-var lightforest_2_0 = new Room("Light Forest (2, 0)", "assets/light-forest-rough.jpeg");
-var lightforest_0_1 = new Room("Light Forest (0, 1)", "assets/light-forest-rough.jpeg");
-var lightforest_1_1 = new Room("Light Forest (1, 1)", "assets/light-forest-rough.jpeg");
-var lightforest_2_1 = new Room("Light Forest (2, 1)", "assets/light-forest-rough.jpeg");
+var lightforest_0 = new Room("Light Forest (0, 0)", "assets/light-forest-rough.jpeg");
+var lightforest_1 = new Room("Light Forest (1, 0)", "assets/light-forest-rough.jpeg");
+var lightforest_2 = new Room("Light Forest (2, 0)", "assets/light-forest-rough.jpeg");
+var lightforest_3 = new Room("Light Forest (0, 1)", "assets/light-forest-rough.jpeg");
+var lightforest_4 = new Room("Light Forest (1, 1)", "assets/light-forest-rough.jpeg");
+var lightforest_5 = new Room("Light Forest (2, 1)", "assets/light-forest-rough.jpeg");
 
-var darkforest_3_0 = new Room("Dark Forest (3, 0)", "assets/dark-forest-rough.jpeg");
-var darkforest_4_0 = new Room("Dark Forest (4, 0)", "assets/dark-forest-rough.jpeg");
-var darkforest_5_0 = new Room("Dark Forest (5, 0)", "assets/dark-forest-rough.jpeg");
-var darkforest_3_1 = new Room("Dark Forest (3, 1)", "assets/dark-forest-rough.jpeg");
-var darkforest_4_1 = new Room("Dark Forest (4, 1)", "assets/dark-forest-rough.jpeg");
-var darkforest_5_1 = new Room("Dark Forest (5, 1)", "assets/dark-forest-rough.jpeg");
+var darkforest_0 = new Room("Dark Forest (3, 0)", "assets/dark-forest-rough.jpeg");
+var darkforest_1 = new Room("Dark Forest (4, 0)", "assets/dark-forest-rough.jpeg");
+var darkforest_2 = new Room("Dark Forest (5, 0)", "assets/dark-forest-rough.jpeg");
+var darkforest_3 = new Room("Dark Forest (3, 1)", "assets/dark-forest-rough.jpeg");
+var darkforest_4 = new Room("Dark Forest (4, 1)", "assets/dark-forest-rough.jpeg");
+var darkforest_5 = new Room("Dark Forest (5, 1)", "assets/dark-forest-rough.jpeg");
 
-var cave_4_2 = new Room("Cave (4, 2)", "assets/cave-rough.jpeg");
+var cave_0;
+var cave_1;
+var cave_2;
+var cave_3;
+var cave_4 = new Room("Cave (4, 2)", "assets/cave-rough.jpeg");
+var cave_5;
 
 /* Set Each Room's Neighbor(s) */
-//                           North              South               East                West
-lightforest_0_0.setNeighbors(lightforest_0_1,   lightforest_0_1,    lightforest_1_0,    null);
-lightforest_1_0.setNeighbors(lightforest_1_1,   lightforest_1_1,    lightforest_2_0,    lightforest_0_0);
-lightforest_2_0.setNeighbors(lightforest_2_1,   lightforest_2_1,    darkforest_3_0,     lightforest_1_0);
-lightforest_0_1.setNeighbors(lightforest_0_0,   lightforest_0_0,    lightforest_1_0,    lightforest_2_1);
-lightforest_1_1.setNeighbors(lightforest_1_0,   lightforest_1_0,    lightforest_2_1,    lightforest_0_1);
-lightforest_2_1.setNeighbors(lightforest_2_0,   lightforest_2_0,    null,               lightforest_1_1);
+//                         North            South             East              West
+lightforest_0.setNeighbors(lightforest_3,   lightforest_3,    lightforest_1,    lightforest_2);
+lightforest_1.setNeighbors(darkforest_4,    lightforest_4,    lightforest_2,    lightforest_0);
+lightforest_2.setNeighbors(lightforest_5,   lightforest_5,    lightforest_0,    lightforest_1);
+lightforest_3.setNeighbors(lightforest_0,   lightforest_0,    lightforest_1,    lightforest_5);
+lightforest_4.setNeighbors(lightforest_1,   null,             lightforest_5,    lightforest_3);
+lightforest_5.setNeighbors(lightforest_2,   lightforest_2,    lightforest_3,             lightforest_4);
 
-darkforest_3_0.setNeighbors(darkforest_3_1,     darkforest_3_1,     darkforest_4_0,     lightforest_2_0);
-darkforest_4_0.setNeighbors(darkforest_4_1,     darkforest_4_1,     darkforest_5_0,     darkforest_3_0);
-darkforest_5_0.setNeighbors(darkforest_5_1,     darkforest_5_1,     null,               darkforest_4_0);
-darkforest_3_1.setNeighbors(darkforest_3_0,     darkforest_3_0,     darkforest_4_1,     null);
-darkforest_4_1.setNeighbors(darkforest_4_0,     cave_4_2,           darkforest_5_1,     darkforest_3_1);
-darkforest_5_1.setNeighbors(darkforest_5_0,     null,               darkforest_3_1,     darkforest_4_1);
+darkforest_0.setNeighbors(darkforest_3,     darkforest_3,     darkforest_1,     darkforest_2);
+darkforest_1.setNeighbors(cave_4,           darkforest_4,     darkforest_2,     darkforest_0);
+darkforest_2.setNeighbors(darkforest_5,     darkforest_5,     darkforest_0,     darkforest_1);
+darkforest_3.setNeighbors(darkforest_0,     darkforest_0,     darkforest_4,     darkforest_5);
+darkforest_4.setNeighbors(darkforest_1,     lightforest_1,    darkforest_5,     darkforest_3);
+darkforest_5.setNeighbors(darkforest_2,     darkforest_2,     darkforest_3,     darkforest_4);
 
-cave_4_2.setNeighbors(darkforest_4_1,           null,               null,               null);
+cave_4.setNeighbors(null,                   darkforest_1,     null,             null);
 
 /* Set Each Room's Corner Obstacles */
-//                           NE,         NW,    SE,     SW
-lightforest_0_0.setObstacles(light_tree, null,  null,   null);
+//                         NE,          NW,         SE,         SW
+lightforest_0.setObstacles(light_tree,  light_tree, light_tree, light_tree);
+lightforest_1.setObstacles(light_tree,  light_tree, light_tree, light_tree);
+lightforest_2.setObstacles(light_tree,  light_tree, light_tree, light_tree);
+lightforest_3.setObstacles(light_tree,  light_tree, light_tree, light_tree);
+lightforest_4.setObstacles(light_tree,  light_tree, light_tree, light_tree);
+lightforest_5.setObstacles(light_tree,  light_tree, light_tree, light_tree);
+
+darkforest_0.setObstacles(dark_tree,    dark_tree,  dark_tree,  dark_tree);
+darkforest_1.setObstacles(dark_tree,    dark_tree,  dark_tree,  dark_tree);
+darkforest_2.setObstacles(dark_tree,    dark_tree,  dark_tree,  dark_tree);
+darkforest_3.setObstacles(dark_tree,    dark_tree,  dark_tree,  dark_tree);
+darkforest_4.setObstacles(dark_tree,    dark_tree,  dark_tree,  dark_tree);
+darkforest_5.setObstacles(dark_tree,    dark_tree,  dark_tree,  dark_tree);
