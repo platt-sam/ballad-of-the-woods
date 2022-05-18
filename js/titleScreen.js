@@ -1,14 +1,38 @@
-var h1TitleScreen = "<h1 id='titleScreen'>Ballad of the Woods</h1>";
-var h2TitleScreen = "<h2 id='titleScreen'>Created by: Dean Wilson, Gianna McCardell, Sam Platt</h2>";
-// var imgTitleScreen = "<img src='https://greekreporter.com/wp-content/uploads/2021/08/Sun-parthenon-credit-Mstyslav-Chernov-wikimedia-commons.jpg' style='border: solid 1px black; width: 40vw; filter: grayscale(100%);' alt='image for title screen' />";
-
-var startGameButton = "<a href='topdown.html'><button>Start New Game</button></a>";
-// var returnToTitleScreenButton = "<button onclick='loadTitleScreen();'>Return to Title Screen</button>";
-
 function loadTitleScreen() {
-  var main = document.querySelector("main");
-  var footer = document.querySelector("footer");
+    const main = document.getElementsByTagName("main");
+    const board = document.createElement("board");
+    const alink = document.createElement("a");
+    const credits = document.createElement("h2");
 
-  main.innerHTML = h1TitleScreen + h2TitleScreen //+ imgTitleScreen;
-  footer.innerHTML = startGameButton;
+    board.style.width = "750px";
+    board.style.height = "600px";
+    board.style.position = "fixed";
+    board.style.padding = 0;
+    board.style.backgroundImage = "url(assets/title-page-rough.jpeg)";
+    board.style.backgroundSize = "cover";
+    board.style.backgroundRepeat = "no-repeat";
+    board.style.padding = 0;
+
+    alink.style.display = "inline-block";
+    alink.style.width = "176px";
+    alink.style.height = "49px";
+    alink.style.position = "fixed";
+    alink.style.border = "1px #49211b solid";
+    alink.style.marginLeft = "288px";
+    alink.style.marginTop = "371px";
+    alink.href = "topdown.html";
+
+    credits.id = "titleScreen";
+    credits.style.textAlign = "center";
+    credits.style.marginTop = "450px";
+    credits.style.color = "#49211b";
+    credits.style.textShadow = "1px 1px #914331";
+    credits.style.fontSize = "12pt";
+    credits.innerHTML = "Created by<br/>Dean Wilson, Gianna McCardell, Sam Platt";
+
+    main[0].append(board);
+    board.append(alink);
+    board.append(credits);
+
+    console.log("Hello?");
 }

@@ -3,8 +3,8 @@
 const obstacle_width = 80;
 const obstacle_height = 80;
 
-const player_width = 50; // 50px wide
-const player_height = 80; // 80px tall
+const player_width = 100; // 100px wide
+const player_height = 160; // 160px tall
 
 const room_width = 750; // 750 px wide
 const room_height = 600; // 600 px tall
@@ -54,7 +54,7 @@ let Room = class {
 
 /* Instantiate Player(s) */
 
-let p1 = new Player("assets/lincoln.jpg");
+let p1 = new Player("assets/orpheus-front-rough.png");
 
 /* Instantiate Obstacles */
 

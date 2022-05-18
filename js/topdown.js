@@ -6,7 +6,8 @@ const inc = 20; // How many pixels to move at a time
     
 const main = document.getElementsByTagName("main");
 const board = document.createElement("board");
-const lincoln = document.createElement("img");
+const orpheus = document.createElement("img");
+orpheus.style.border = "solid 1px black";
 
 let ne_obstacle = document.createElement("img");
 let nw_obstacle = document.createElement("img");
@@ -31,12 +32,12 @@ window.addEventListener("keydown", function(event) {
 
     if (key == 'w' || key == 'ArrowUp') { // Move Up
         // Set corner conditions for going up
-        northeast_corner_cond = boardTopOffset > 0 && (boardLeftOffset + lincoln.width) < (room_width - ne_obstacle.width);
+        northeast_corner_cond = boardTopOffset > 0 && (boardLeftOffset + orpheus.width) < (room_width - ne_obstacle.width);
         northwest_corner_cond = false; // TODO: Add logic for this
         
         if (boardTopOffset > ne_obstacle.height || northeast_corner_cond || northwest_corner_cond) {
             boardTopOffset -= inc;
-            lincoln.style.marginTop = boardTopOffset + "px";
+            orpheus.style.marginTop = boardTopOffset + "px";
         
         } else if (boardTopOffset == 0) { // if this is actually the top boundary of the map
 
@@ -51,10 +52,10 @@ window.addEventListener("keydown", function(event) {
         } else { console.log("At corner case"); }
     
     } else if (key == 's' || key == 'ArrowDown') { // Move Down
-        if (boardTopOffset + lincoln.height < room_height) {
+        if (boardTopOffset + orpheus.height < room_height) {
 
             boardTopOffset += inc;
-            lincoln.style.marginTop = boardTopOffset + "px";
+            orpheus.style.marginTop = boardTopOffset + "px";
         } else { // at bottom of map
             if (currentRoom.room_south != null) { // if there is a room to the south
                 console.log("Reached bottommost boundary of map, moving to neighbor room to the south");
@@ -65,10 +66,10 @@ window.addEventListener("keydown", function(event) {
     } else if (key == 'a' || key == 'A' || key == 'ArrowLeft') { // Move Left
         if (boardLeftOffset >= inc) {
             boardLeftOffset -= inc;
-            lincoln.style.marginLeft = boardLeftOffset + "px";
+            orpheus.style.marginLeft = boardLeftOffset + "px";
 
             //console.log("boardLeftOffset = " + boardLeftOffset);
-            //console.log(lincoln.style.marginLeft, lincoln.style.marginTop);
+            //console.log(orpheus.style.marginLeft, orpheus.style.marginTop);
         } else {
             if (currentRoom.room_west != null) { // if there is a room to the west
                 console.log("Reached leftmost boundary of map, moving to neighbor room to the west");
@@ -78,11 +79,11 @@ window.addEventListener("keydown", function(event) {
         }
 
     } else if (key == 'd' || key == 'ArrowRight') { // Move Right
-        if (boardLeftOffset + lincoln.width < room_width - ne_obstacle.width ||
-            (boardLeftOffset + lincoln.width < room_width && (boardTopOffset > ne_obstacle.height))
+        if (boardLeftOffset + orpheus.width < room_width - ne_obstacle.width ||
+            (boardLeftOffset + orpheus.width < room_width && (boardTopOffset > ne_obstacle.height))
         ) {
             boardLeftOffset += inc;
-            lincoln.style.marginLeft = boardLeftOffset + "px";
+            orpheus.style.marginLeft = boardLeftOffset + "px";
         } else {
             if (currentRoom.room_east != null) { // if there is a room to the east
                 console.log("Reached rightmost boundary of map, moving to neighbor room to the east");
@@ -99,7 +100,7 @@ function initialize() {
 
     console.log("You are in " + currentRoom.name);
     // console.log(boardLeftOffset, boardTopOffset);
-    // console.log(lincoln.style.marginLeft, lincoln.style.marginTop);
+    // console.log(orpheus.style.marginLeft, orpheus.style.marginTop);
 
     board.style.border = "solid 1px black";
     board.style.height = room_height + "px";
@@ -114,19 +115,19 @@ function initialize() {
     board.style.padding = 0;
 
     // Player
-    lincoln.src = p1.source_filename;
-    lincoln.width = player_width;
-    lincoln.height = player_height;
-    lincoln.onload = function() {
+    orpheus.src = p1.source_filename;
+    orpheus.width = player_width;
+    orpheus.height = player_height;
+    orpheus.onload = function() {
         var w = 50;
         //var h = Math.ceil((this.naturalHeight / this.naturalWidth * w) / 10) * 10;
         // console.log(w, h);
-        this.style.width = lincoln.width + "px";
-        this.style.height = lincoln.height + "px";
+        this.style.width = orpheus.width + "px";
+        this.style.height = orpheus.height + "px";
     }
-    lincoln.style.position = "fixed";
-    lincoln.style.marginLeft = boardLeftOffset + "px";
-    lincoln.style.marginTop = boardTopOffset + "px";
+    orpheus.style.position = "fixed";
+    orpheus.style.marginLeft = boardLeftOffset + "px";
+    orpheus.style.marginTop = boardTopOffset + "px";
 
     // Northeast Obstacle
     if (currentRoom.ne_obstacle != null) {
@@ -156,7 +157,7 @@ function initialize() {
 
     /* LINK THE ELEMENTS TOGETHER */
     main[0].append(board);
-    board.append(lincoln);
+    board.append(orpheus);
     if (currentRoom.obstacle_ne) { board.append(ne_obstacle); }
     if (currentRoom.obstacle_nw) { board.append(nw_obstacle); }
     if (currentRoom.obstacle_se) { board.append(se_obstacle); }
