@@ -18,6 +18,7 @@ function loadTitleScreen() {
     alink.style.height = "49px";
     alink.style.position = "fixed";
     alink.style.border = "1px #49211b solid";
+    // alink.style.border = "1px white solid"; // demo and testing purposes
     alink.style.marginLeft = "288px";
     alink.style.marginTop = "371px";
     alink.href = "topdown.html";
@@ -33,6 +34,4 @@ function loadTitleScreen() {
     main[0].append(board);
     board.append(alink);
     board.append(credits);
-
-    console.log("Hello?");
 }

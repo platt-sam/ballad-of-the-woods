@@ -18,9 +18,23 @@ let Obstacle = class {
 };
 
 let Player = class {
+    constructor(source_filename, name) {
+        this.source_filename = source_filename;
+        this.name = name;
+    };
+};
+
+let Character = class {
+    constructor(source_filename, name) {
+        this.source_filename = source_filename;
+        this.name = name;
+    }
+};
+
+let Music = class {
     constructor(source_filename) {
         this.source_filename = source_filename;
-    };
+    }
 };
 
 let Room = class {
@@ -37,6 +51,10 @@ let Room = class {
         this.obstacle_nw = null;
         this.obstacle_se = null;
         this.obstacle_sw = null;
+        // Sheet Music
+        this.music = null;
+        // Character
+        this.character = null;
     }
     setNeighbors(room_north, room_south, room_east, room_west) {
         this.room_north = room_north;
@@ -50,54 +68,66 @@ let Room = class {
         this.obstacle_se = obstacle_se;
         this.obstacle_sw = obstacle_sw;
     }
+    setCharacter(character) {
+        this.character = character;
+    }
+    setMusic(music) {
+        this.music = music;
+    }
 };
 
 /* Instantiate Player(s) */
 
-let p1 = new Player("assets/orpheus-front-rough.png");
+let p1 = new Player("assets/orpheus-front-rough.png", "Orpheus");
 
 /* Instantiate Obstacles */
 
-var rock = new Obstacle("assets/rock-rough.png");
-var light_tree = new Obstacle("assets/light-tree-rough.png");
-var dark_tree = new Obstacle("assets/dark-tree-rough.png");
+var rock = new Obstacle("assets/rock.png");
+var light_tree = new Obstacle("assets/light-tree.png");
+var dark_tree = new Obstacle("assets/dark-tree.png");
+
+/* Instantiate Characters */
+
+var charon = new Character("assets/boatman-rough.png", "The Boatman");
+var eurydice = new Character("assets/eurydice-rough.png", "Eurydice");
+var monster = new Character("assets/boatman-rough.png", "The Monster"); // TODO: change this to the monster image
 
 /* Instantiate Rooms */
 
 var currentRoom;
 
-var lightforest_0 = new Room("Light Forest (0, 0)", "assets/light-forest-rough.jpeg");
-var lightforest_1 = new Room("Light Forest (1, 0)", "assets/light-forest-rough.jpeg");
-var lightforest_2 = new Room("Light Forest (2, 0)", "assets/light-forest-rough.jpeg");
-var lightforest_3 = new Room("Light Forest (0, 1)", "assets/light-forest-rough.jpeg");
-var lightforest_4 = new Room("Light Forest (1, 1)", "assets/light-forest-rough.jpeg");
-var lightforest_5 = new Room("Light Forest (2, 1)", "assets/light-forest-rough.jpeg");
+var lightforest_0 = new Room("the Light Forest", "assets/light-forest.png");
+var lightforest_1 = new Room("the Light Forest", "assets/light-forest.png");
+var lightforest_2 = new Room("the Light Forest", "assets/light-forest.png");
+var lightforest_3 = new Room("the Light Forest", "assets/light-forest.png");
+var lightforest_4 = new Room("the Light Forest", "assets/light-forest.png");
+var lightforest_5 = new Room("the Light Forest", "assets/light-forest.png");
 
-var darkforest_0 = new Room("Dark Forest (3, 0)", "assets/dark-forest-rough.jpeg");
-var darkforest_1 = new Room("Dark Forest (4, 0)", "assets/dark-forest-rough.jpeg");
-var darkforest_2 = new Room("Dark Forest (5, 0)", "assets/dark-forest-rough.jpeg");
-var darkforest_3 = new Room("Dark Forest (3, 1)", "assets/dark-forest-rough.jpeg");
-var darkforest_4 = new Room("Dark Forest (4, 1)", "assets/dark-forest-rough.jpeg");
-var darkforest_5 = new Room("Dark Forest (5, 1)", "assets/dark-forest-rough.jpeg");
+var darkforest_0 = new Room("the Dark Forest", "assets/dark-forest-w-mushrooms.png");
+var darkforest_1 = new Room("the Dark Forest", "assets/dark-forest-w-mushrooms.png");
+var darkforest_2 = new Room("the Dark Forest", "assets/dark-forest-w-mushrooms.png");
+var darkforest_3 = new Room("the Dark Forest", "assets/dark-forest-w-mushrooms.png");
+var darkforest_4 = new Room("the Dark Forest", "assets/dark-forest-w-mushrooms.png");
+var darkforest_5 = new Room("the Dark Forest", "assets/dark-forest-w-mushrooms.png");
 
-var cave_0;
-var cave_1;
-var cave_2;
-var cave_3;
-var cave_4 = new Room("Cave (4, 2)", "assets/cave-rough.jpeg");
-var cave_5;
+var cave_0 = new Room("a cave", "assets/cave.png");
+var cave_1 = new Room("a cave", "assets/cave.png");
+var cave_2 = new Room("a cave", "assets/cave.png");
+var cave_3 = new Room("a cave", "assets/cave.png");
+var cave_4 = new Room("a cave", "assets/cave.png");
+var cave_5 = new Room("a cave", "assets/cave.png");
 
 /* Set Each Room's Neighbor(s) */
 //                         North            South             East              West
 lightforest_0.setNeighbors(lightforest_3,   lightforest_3,    lightforest_1,    lightforest_2);
-lightforest_1.setNeighbors(darkforest_4,    lightforest_4,    lightforest_2,    lightforest_0);
+lightforest_1.setNeighbors(null,            lightforest_4,    lightforest_2,    lightforest_0);
 lightforest_2.setNeighbors(lightforest_5,   lightforest_5,    lightforest_0,    lightforest_1);
 lightforest_3.setNeighbors(lightforest_0,   lightforest_0,    lightforest_1,    lightforest_5);
 lightforest_4.setNeighbors(lightforest_1,   null,             lightforest_5,    lightforest_3);
 lightforest_5.setNeighbors(lightforest_2,   lightforest_2,    lightforest_3,             lightforest_4);
 
 darkforest_0.setNeighbors(darkforest_3,     darkforest_3,     darkforest_1,     darkforest_2);
-darkforest_1.setNeighbors(cave_4,           darkforest_4,     darkforest_2,     darkforest_0);
+darkforest_1.setNeighbors(null,             darkforest_4,     darkforest_2,     darkforest_0);
 darkforest_2.setNeighbors(darkforest_5,     darkforest_5,     darkforest_0,     darkforest_1);
 darkforest_3.setNeighbors(darkforest_0,     darkforest_0,     darkforest_4,     darkforest_5);
 darkforest_4.setNeighbors(darkforest_1,     lightforest_1,    darkforest_5,     darkforest_3);
@@ -120,3 +150,10 @@ darkforest_2.setObstacles(dark_tree,    dark_tree,  dark_tree,  dark_tree);
 darkforest_3.setObstacles(dark_tree,    dark_tree,  dark_tree,  dark_tree);
 darkforest_4.setObstacles(dark_tree,    dark_tree,  dark_tree,  dark_tree);
 darkforest_5.setObstacles(dark_tree,    dark_tree,  dark_tree,  dark_tree);
+
+cave_4.setObstacles(rock, rock, rock, rock);
+
+/* Set Each Room's Character */
+
+lightforest_1.setCharacter(charon);
+darkforest_1.setCharacter(monster);
