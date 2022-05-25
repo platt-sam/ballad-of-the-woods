@@ -21,7 +21,7 @@ function loadTitleScreen() {
     // alink.style.border = "1px white solid"; // demo and testing purposes
     alink.style.marginLeft = "288px";
     alink.style.marginTop = "371px";
-    alink.href = "topdown.html";
+    alink.href = "ballad.html";
 
     credits.id = "titleScreen";
     credits.style.textAlign = "center";
@@ -29,7 +29,7 @@ function loadTitleScreen() {
     credits.style.color = "#49211b";
     credits.style.textShadow = "1px 1px #914331";
     credits.style.fontSize = "12pt";
-    credits.innerHTML = "Created by<br/>Dean Wilson, Gianna McCardell, Sam Platt";
+    credits.innerHTML = "Created by<br/>Dean Wilson, <a href='https://mccardelg.myportfolio.com'>Gianna McCardell</a>, and <a href='https://www.linkedin.com/in/platt-sam'>Sam Platt</a>";
 
     main[0].append(board);
     board.append(alink);

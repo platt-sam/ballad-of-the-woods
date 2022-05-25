@@ -1,10 +1,10 @@
 /* Set constants to be used */
 
-const obstacle_width = 80;
-const obstacle_height = 80;
+const obstacle_width = 150;
+const obstacle_height = 150;
 
-const player_width = 100; // 100px wide
 const player_height = 160; // 160px tall
+const player_width = 0.625 * player_height; // 62.5% of player_height
 
 const room_width = 750; // 750 px wide
 const room_height = 600; // 600 px tall
@@ -96,19 +96,19 @@ var monster = new Character("assets/boatman-rough.png", "The Monster"); // TODO:
 
 var currentRoom;
 
-var lightforest_0 = new Room("the Light Forest", "assets/light-forest.png");
-var lightforest_1 = new Room("the Light Forest", "assets/light-forest.png");
-var lightforest_2 = new Room("the Light Forest", "assets/light-forest.png");
-var lightforest_3 = new Room("the Light Forest", "assets/light-forest.png");
-var lightforest_4 = new Room("the Light Forest", "assets/light-forest.png");
-var lightforest_5 = new Room("the Light Forest", "assets/light-forest.png");
+var lightforest_0 = new Room("the Light Forest", "assets/light-forest-1.png");
+var lightforest_1 = new Room("the Light Forest", "assets/light-forest-2.png");
+var lightforest_2 = new Room("the Light Forest", "assets/light-forest-1.png");
+var lightforest_3 = new Room("the Light Forest", "assets/light-forest-2.png");
+var lightforest_4 = new Room("the Light Forest", "assets/light-forest-1.png");
+var lightforest_5 = new Room("the Light Forest", "assets/light-forest-2.png");
 
-var darkforest_0 = new Room("the Dark Forest", "assets/dark-forest-w-mushrooms.png");
-var darkforest_1 = new Room("the Dark Forest", "assets/dark-forest-w-mushrooms.png");
-var darkforest_2 = new Room("the Dark Forest", "assets/dark-forest-w-mushrooms.png");
-var darkforest_3 = new Room("the Dark Forest", "assets/dark-forest-w-mushrooms.png");
-var darkforest_4 = new Room("the Dark Forest", "assets/dark-forest-w-mushrooms.png");
-var darkforest_5 = new Room("the Dark Forest", "assets/dark-forest-w-mushrooms.png");
+var darkforest_0 = new Room("the Dark Forest", "assets/dark-forest-1.png");
+var darkforest_1 = new Room("the Dark Forest", "assets/dark-forest-2.png");
+var darkforest_2 = new Room("the Dark Forest", "assets/dark-forest-1.png");
+var darkforest_3 = new Room("the Dark Forest", "assets/dark-forest-2.png");
+var darkforest_4 = new Room("the Dark Forest", "assets/dark-forest-1.png");
+var darkforest_5 = new Room("the Dark Forest", "assets/dark-forest-2.png");
 
 var cave_0 = new Room("a cave", "assets/cave.png");
 var cave_1 = new Room("a cave", "assets/cave.png");
