@@ -11,14 +11,36 @@
 
     <script>
       function showHint() {
-        window.alert("Use wasd or arrow keys to move around");
+        window.alert("You must travel north to the Dragon’s lair to rescue Eurydice. Explore the woods to work on your magical song. Use wasd or arrow keys to move around");
+      }
+      function showControls(id) {
+        document.getElementById(id).style.display = "inline-block";
       }
     </script>
     <script src="js/entities.js"></script>
     <script src="js/topdown.js"></script>
+    <style>
+      audio {
+        display: none;
+        position: fixed;
+        margin-top: 615px;
+      }
+    </style>
   </head>
 
-  <body onload="initialize();">
+  <body onload="initialize(); showHint();">
     <main></main>
+    <audio controls loop id="song1" onplay="showControls('song1');">
+      <source src="audio/song1.mp3" type="audio/mp3" />
+    </audio>
+    <audio controls loop id="song2" onplay="showControls('song2');">
+      <source src="audio/song2.mp3" type="audio/mp3" />
+    </audio>
+    <audio controls loop id="song3" onplay="showControls('song3');">
+      <source src="audio/song3.mp3" type="audio/mp3" />
+    </audio>
+    <audio controls loop id="song4" onplay="showControls('song4');">
+      <source src="audio/song4.mp3" type="audio/mp3" />
+    </audio>
   </body>
 </html>

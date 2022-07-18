@@ -21,7 +21,7 @@ function loadTitleScreen() {
     // alink.style.border = "1px white solid"; // demo and testing purposes
     alink.style.marginLeft = "288px";
     alink.style.marginTop = "371px";
-    alink.href = "ballad.html";
+    alink.href = "prologue.html";
 
     credits.id = "titleScreen";
     credits.style.textAlign = "center";

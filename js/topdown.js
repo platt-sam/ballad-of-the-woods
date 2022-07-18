@@ -2,6 +2,9 @@
 currentRoom = lightforest_1; // Set Current Room at beginning of game
 const inc = 20; // How many pixels to move at a time
 
+const obstacle_padding_width = 25;
+const obstacle_padding_height = 25;
+
 /* CREATE HTML ELEMENTS */
     
 const main = document.getElementsByTagName("main");
@@ -29,9 +32,10 @@ dialogue.style.height = "75px";
 dialogue.style.width = "300px";
 dialogue.innerHTML = "Use WASD keys or arrow keys to move around the board and between rooms";
 
-var music_flag_1 = true; // changes to true when the first set of sheet music is found
+var music_flag_1 = false; // changes to true when the first set of sheet music is found
 var music_flag_2 = false; // changes to true when the second set of sheet music is found
 var music_flag_3 = false; // changes to true when the third set of sheet music is found
+var music_flag_4 = false; // changes to true when the fourth set of sheet music is found
 
 var boardLeftOffset = (room_width - player_width) / 2; // player's distance from the left border (in pixels)
 var boardTopOffset = (room_height - player_height); // player's distance from the top border (in pixels)
@@ -43,21 +47,21 @@ window.addEventListener("keydown", function(event) {
     var key = event.key;
 
     if (key == 'w' || key == 'ArrowUp') { // Move Up
-        orpheus.src = "assets/orpheus-back-rough.png";
+        orpheus.src = "assets/orpheus-back.png"; // TODO change this later
 
         // Set corner conditions for going up
         if (boardTopOffset > 0) {
             
-            if ( (boardTopOffset > obstacle_height) || ( (boardLeftOffset > obstacle_width) && (boardLeftOffset < room_width - obstacle_width - player_width) ) ) {
+            if ( (boardTopOffset > 25) || ( (boardLeftOffset > obstacle_padding_width) && (boardLeftOffset < room_width - obstacle_padding_width - player_width) ) ) {
 
                 boardTopOffset -= inc;
                 orpheus.style.marginTop = boardTopOffset + "px";
 
             } else {
-                // console.log("At corner case");
+                //console.log("At corner case");
             }
         
-        } else if (boardTopOffset == 0) { // if this is actually the top boundary of the map
+        } else if (boardTopOffset <= 0) { // if this is actually the top boundary of the map
 
             if (currentRoom.room_north != null) { // if there is a room to the north
                 
@@ -77,11 +81,11 @@ window.addEventListener("keydown", function(event) {
         }
     
     } else if (key == 's' || key == 'ArrowDown') { // Move Down
-        orpheus.src = "assets/orpheus-front-rough.png"; // facing front image
+        orpheus.src = "assets/orpheus-front.png"; // facing front image
 
         if (boardTopOffset + orpheus.height < room_height) {
 
-            if ( (boardTopOffset < room_height - orpheus.height - obstacle_height) || ( (boardLeftOffset > obstacle_width) && (boardLeftOffset < room_width - obstacle_width - player_width) ) ) {
+            if ( (boardTopOffset < room_height - orpheus.height - obstacle_padding_height) || ( (boardLeftOffset > obstacle_padding_width) && (boardLeftOffset < room_width - obstacle_padding_width - player_width) ) ) {
 
                 boardTopOffset += inc;
                 orpheus.style.marginTop = boardTopOffset + "px";
@@ -103,11 +107,11 @@ window.addEventListener("keydown", function(event) {
             }
         }
     } else if (key == 'a' || key == 'A' || key == 'ArrowLeft') { // Move Left
-        orpheus.src = "assets/orpheus-front-rough.png"; // facing front image
+        orpheus.src = "assets/orpheus-front.png"; // facing front image
         orpheus.style.transform = "scaleX(-1)"; // flip image to face left
 
         if (boardLeftOffset >= inc) {
-            if ( (boardLeftOffset > obstacle_width) || ( (boardTopOffset > obstacle_height) && (boardTopOffset < room_height - obstacle_height - player_height) ) ) {
+            if ( (boardLeftOffset > obstacle_padding_width) || ( (boardTopOffset > obstacle_padding_height) && (boardTopOffset < room_height - obstacle_padding_height - player_height) ) ) {
 
                 boardLeftOffset -= inc;
                 orpheus.style.marginLeft = boardLeftOffset + "px";
@@ -126,12 +130,12 @@ window.addEventListener("keydown", function(event) {
         }
 
     } else if (key == 'd' || key == 'ArrowRight') { // Move Right
-        orpheus.src = "assets/orpheus-front-rough.png"; // facing front image
+        orpheus.src = "assets/orpheus-front.png"; // facing front image
         orpheus.style.transform = "scaleX(1)"; // flip image to face left
 
         if (boardLeftOffset < room_width - player_width - inc) {
 
-            if ( (boardLeftOffset < room_width - player_width - inc - obstacle_width) || ( (boardTopOffset > obstacle_height) && (boardTopOffset < room_height - obstacle_height - player_height) ) ) {
+            if ( (boardLeftOffset < room_width - player_width - inc - obstacle_padding_width) || ( (boardTopOffset > obstacle_padding_height) && (boardTopOffset < room_height - obstacle_padding_height - player_height) ) ) {
 
                 boardLeftOffset += inc;
                 orpheus.style.marginLeft = boardLeftOffset + "px";
@@ -159,9 +163,9 @@ window.addEventListener("click", function(event) {
     if (currentRoom.character) { // if there is a character in this room
         if (currentRoom == lightforest_1 && currentRoom.character == charon ) {
             if (!music_flag_1) { // if the first set of sheet music has not been found
-                dialogue.innerHTML = "<b>" + currentRoom.character.name + ":</b><br/>Come back when you've found the sheet music and I'll take you north on my boat.";
+                dialogue.innerHTML = "<b>" + currentRoom.character.name + ":</b><br/>I will take you up the river, for a price. Return when you have something of value.";
             } else {
-                dialogue.innerHTML = "<b>" + currentRoom.character.name + ":</b><br/>I will take you across the river to the north.";
+                dialogue.innerHTML = "<b>" + currentRoom.character.name + ":</b><br/>Come aboard. I will take you across the river to the north now.";
                 lightforest_1.setNeighbors(darkforest_4, lightforest_4, lightforest_2, lightforest_0);
             }
         } else if (currentRoom == darkforest_1 && currentRoom.character == monster) {
@@ -173,13 +177,43 @@ window.addEventListener("click", function(event) {
             }
         }
     }
+    if (currentRoom.music) {
+        if (currentRoom == lightforest_5 && currentRoom.music == music1) {
+            console.log("You found the first piece of sheet music!");
+            document.getElementById("song1").play();
+
+            music_flag_1 = true; // set the flag for music 1 to true
+            board.removeChild(music); // remove the music sheet from the room
+            lightforest_5.setMusic(null); // set the music of the room to null so the music sheet doesn't appear again in the future
+        } else if (currentRoom == darkforest_2 && currentRoom.music == music2) {
+            console.log("You found the second piece of sheet music!");
+            document.getElementById("song1").pause();
+            document.getElementById("song2").play();
+            music_flag_2 = true;
+            board.removeChild(music); // remove the music sheet from the room
+            darkforest_2.setMusic(null); // set the music of the room to null so the music sheet doesn't appear again in the future
+        } else if (currentRoom == cave_0 && currentRoom.music == music3) {
+            console.log("You found the third piece of sheet music!");
+            document.getElementById("song2").pause();
+            document.getElementById("song3").play();
+            music_flag_3 = true;
+            board.removeChild(music); // remove the music sheet from the room
+            cave_0.setMusic(null); // set the music of the room to null so the music sheet doesn't appear again in the future
+        } else if (currentRoom == cave_3 && currentRoom.music == music4) {
+            console.log("You found the fourth piece of sheet music!");
+            document.getElementById("song3").pause();
+            document.getElementById("song4").play();
+            music_flag_4 = true;
+            board.removeChild(music); // remove the music sheet from the room
+            cave_3.setMusic(null); // set the music of the room to null so the music sheet doesn't appear again in the future
+            cave_2.setNeighbors(cave_6, cave_5, null, null);
+        }
+    }
 }, true);
 
 function initialize() {
 
     dialogue.innerHTML = "You are in " + currentRoom.name;
-    // console.log(boardLeftOffset, boardTopOffset);
-    // console.log(orpheus.style.marginLeft, orpheus.style.marginTop);
 
     board.style.border = "solid 1px black";
     board.style.height = room_height + "px";
@@ -197,16 +231,12 @@ function initialize() {
     orpheus.src = p1.source_filename;
     orpheus.width = player_width;
     orpheus.height = player_height;
-    orpheus.onload = function() {
-        var w = 50;
-        //var h = Math.ceil((this.naturalHeight / this.naturalWidth * w) / 10) * 10;
-        // console.log(w, h);
-        this.style.width = orpheus.width + "px";
-        this.style.height = orpheus.height + "px";
-    }
+    // orpheus.style.border = "solid 1px black";
     orpheus.style.position = "fixed";
     orpheus.style.marginLeft = boardLeftOffset + "px";
     orpheus.style.marginTop = boardTopOffset + "px";
+
+    /* Add Obstacles */
 
     // Northeast Obstacle
     if (currentRoom.obstacle_ne != null) {
@@ -245,25 +275,58 @@ function initialize() {
         sw_obstacle.style.marginTop = room_height - obstacle_height + "px";
     }
 
+    /* Add Characters */
+
     if (currentRoom.character != null) {
         character.src = currentRoom.character.source_filename;
-        character.style.width = player_width + "px"; // TODO: replace with final width of boatman image
-        character.style.height = player_height + "px"; // TODO: replace with final height of boatman image
+        character.style.width = currentRoom.character.width + "px";
+        character.style.height = currentRoom.character.height + "px";
         character.style.position = "fixed";
-        character.style.marginLeft = (room_width - player_width) / 2 + "px"; // TODO: replace with final width of boatman image
-        character.style.marginTop = "0px";
+        if (currentRoom.character == monster) {
+            character.style.marginTop = "20px";
+            character.style.marginLeft = (room_width - currentRoom.character.width - 100) / 2 + "px";
+        } else if (currentRoom.character == eurydice) {
+            character.style.marginTop = (room_height - currentRoom.character.height + 100) / 2 + "px";
+            character.style.marginLeft = (room_width - currentRoom.character.width + 100) / 2 + "px";
+        } else {
+            character.style.marginTop = "0px";
+            character.style.marginLeft = (room_width - currentRoom.character.width) / 2 + "px";
+        }
     }
+    
+    /* Add Music */
 
     if (currentRoom.music != null) {
         music.src = currentRoom.music.source_filename;
+        music.style.width = "95px"; // 380px
+        music.style.height = "35px"; // 140px
+        music.style.position = "fixed";
+        music.style.marginLeft = room_width / 2 + "px";
+        music.style.marginTop = room_height / 2 + "px";
     }
 
     /* SET THE INNER CONTENT OF THE ELEMENTS */
 
+    if (currentRoom == cave_2) {
+        if (!music_flag_3 && !music_flag_4) {
+            dialogue.innerHTML = "You're not ready to face the dragon yet.";
+        } else if (music_flag_3 && !music_flag_4) {
+            dialogue.innerHTML = "You're still not ready to face the dragon.";
+            cave_3.setMusic(music4);
+        } else if (music_flag_3 && music_flag_4) {
+            dialogue.innerHTML = "You are finally ready to face the dragon!";
+        }
+    } else if (currentRoom == cave_6) {
+        dialogue.innerHTML = "<b>The Dragon</b>: Nothing has touched my heart quite like your song. For that, I will release Eurydice.";
+        setTimeout(() => {
+            window.alert("Congratulations, you've won the game!");
+        }, "4000");
+    }
+
     /* LINK THE ELEMENTS TOGETHER */
     main[0].append(board); // add the board to the main element
     board.append(orpheus); // add the player
-    // obstacle logic
+    // obstacle logic 
     if (currentRoom.obstacle_ne) {
         board.append(ne_obstacle);
     } else if (board.contains(ne_obstacle)) {
